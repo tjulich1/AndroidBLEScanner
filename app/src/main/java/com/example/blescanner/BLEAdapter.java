@@ -1,3 +1,5 @@
+// Trent Julich ~ 17 June 2021
+
 package com.example.blescanner;
 
 import android.content.Context;
@@ -10,36 +12,39 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.ViewHolder>{
+/**
+ * Adapter for recyclerview which displays discovered BLE devices.
+ */
+public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
 
-    private List<BLEItem> devices;
+    private List<BLEItem> mDevices;
 
     public BLEAdapter(List<BLEItem> devices)
     {
-        this.devices = devices;
+        mDevices = devices;
     }
 
-    // Usually involves inflating a layout from XML and returning the holder
     @Override
-    public BLEAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BLEAdapter.BLEViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        // Inflate xml layout for recyclerview
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.bledevice_item, parent, false);
+        // Layout defined in res/layout/bledevice_item.xml
+        View deviceView = inflater.inflate(R.layout.bledevice_item, parent, false);
 
-        // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        BLEViewHolder viewHolder = new BLEViewHolder(deviceView);
         return viewHolder;
     }
 
-    // Involves populating data into the item through holder
+    // Used to populate the recyclerview with data found in mDevices.
     @Override
-    public void onBindViewHolder(BLEAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(BLEAdapter.BLEViewHolder holder, int position) {
         // Get the data model based on position
-        BLEItem item = devices.get(position);
+        BLEItem item = mDevices.get(position);
 
-        // Set item views based on your views and data model
+        // Update the frontend views with the data for each device.
         TextView nameView = holder.deviceName;
         nameView.setText(item.getName());
 
@@ -52,24 +57,26 @@ public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return this.devices.size();
+        return mDevices.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * Holder for single recycler view item. Each item corresponds to single ble device.
+     */
+    public class BLEViewHolder extends RecyclerView.ViewHolder {
 
-        // Member field for each view that should be filled.
+        // Member field for each property of the device that should be displayed.
         public TextView deviceName;
         public TextView deviceRssi;
         public TextView deviceConnectable;
 
-        public ViewHolder(View itemView) {
+        public BLEViewHolder(View itemView) {
             super(itemView);
 
+            // Connect the adapter to the front end views for each device property.
             deviceName = (TextView) itemView.findViewById(R.id.device_name);
             deviceRssi = (TextView) itemView.findViewById(R.id.device_rssi);
             deviceConnectable = (TextView) itemView.findViewById(R.id.device_connectable);
         }
-
     }
-
 }

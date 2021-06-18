@@ -1,5 +1,10 @@
+// Trent Julich ~ 17 June 2021
+
 package com.example.blescanner;
 
+/**
+ * Model for a single BLE device.
+ */
 public class BLEItem {
 
     private String deviceName;
