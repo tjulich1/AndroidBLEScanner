@@ -46,13 +46,16 @@ public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
 
         // Update the frontend views with the data for each device.
         TextView nameView = holder.deviceName;
-        nameView.setText(item.getName());
+        nameView.setText("Device Name: " + item.getName());
 
         TextView rssiView = holder.deviceRssi;
-        rssiView.setText(item.getRssi());
+        rssiView.setText("Rssi: " + String.valueOf(item.getRssi()));
 
         TextView connectView = holder.deviceConnectable;
         connectView.setText(item.getConnectable());
+
+        TextView addressView = holder.deviceAddress;
+        addressView.setText("Address: " + item.getAddress());
     }
 
     @Override
@@ -69,6 +72,7 @@ public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
         public TextView deviceName;
         public TextView deviceRssi;
         public TextView deviceConnectable;
+        public TextView deviceAddress;
 
         public BLEViewHolder(View itemView) {
             super(itemView);
@@ -77,6 +81,7 @@ public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
             deviceName = (TextView) itemView.findViewById(R.id.device_name);
             deviceRssi = (TextView) itemView.findViewById(R.id.device_rssi);
             deviceConnectable = (TextView) itemView.findViewById(R.id.device_connectable);
+            deviceAddress = (TextView) itemView.findViewById(R.id.device_address);
         }
     }
 }

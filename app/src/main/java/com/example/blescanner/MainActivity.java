@@ -34,6 +34,7 @@ import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -147,7 +148,14 @@ public class MainActivity extends AppCompatActivity {
         public void onScanResult(int callbackType, ScanResult result) {
             // Add device to list.
             Log.d("DEVICE FOUND", "Device name: " + result.getDevice().getName());
-            mDevices.add(new BLEItem(result.getDevice().getName(), String.valueOf(result.getRssi()), result.isConnectable()));
+
+            BLEItem discoveredItem = new BLEItem(result.getDevice().getName(), result.getRssi(), result.isConnectable(), result.getDevice().getAddress());
+
+            if (!mDevices.contains(discoveredItem)) {
+                mDevices.add(discoveredItem);
+            }
+
+            List<String> data = BLEDataParser.parseData(result.getScanRecord().getBytes());
 
             // Notify adapter of data change.
             mDeviceListAdapter.notifyDataSetChanged();
