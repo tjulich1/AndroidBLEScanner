@@ -28,6 +28,8 @@
 
     <ToggleButton
         android:id="@+id/sortToggleButton"
+        android:textOff="Address"
+        android:textOn="RSSI"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

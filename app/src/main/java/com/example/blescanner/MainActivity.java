@@ -34,6 +34,7 @@ import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -155,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 mDevices.add(discoveredItem);
             }
 
-            List<String> data = BLEDataParser.parseData(result.getScanRecord().getBytes());
-
             // Notify adapter of data change.
             mDeviceListAdapter.notifyDataSetChanged();
         }
@@ -189,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 stopScanning();
                 mStartButton.setEnabled(true);
+                mStopButton.setEnabled(false);
             }
         });
 
@@ -200,7 +200,8 @@ public class MainActivity extends AppCompatActivity {
                     mDevices.sort(new RSSIComparator());
                     mDeviceListAdapter.notifyDataSetChanged();
                 } else {
-
+                    Collections.sort(mDevices);
+                    mDeviceListAdapter.notifyDataSetChanged();
                 }
             }
         });

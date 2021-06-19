@@ -5,7 +5,7 @@ package com.example.blescanner;
 /**
  * Model for a single BLE device.
  */
-public class BLEItem {
+public class BLEItem implements Comparable<BLEItem> {
 
     private String deviceName;
     private int rssi;
@@ -49,5 +49,10 @@ public class BLEItem {
 
         BLEItem otherItem = (BLEItem) o;
         return this.getAddress().equals(otherItem.getAddress());
+    }
+
+    @Override
+    public int compareTo(BLEItem o) {
+        return address.compareTo(o.getAddress());
     }
 }
