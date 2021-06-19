@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewClickListener{
 
     private static final int PERMISSION_CODE = 1;
 
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         mDevices = new ArrayList<BLEItem>();
 
         // Create ble adapter using list of BLE devices.
-        mDeviceListAdapter = new BLEAdapter(mDevices);
+        mDeviceListAdapter = new BLEAdapter(mDevices, this);
 
         // Attach the adapter to the recyclerview to populate items
         deviceRecycler.setAdapter(mDeviceListAdapter);
@@ -205,6 +205,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onClick(int position) {
+        Log.d("CLICKED", "POSITION: " + position);
     }
 
     public void startScanning() {

@@ -18,9 +18,11 @@ import java.util.List;
 public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
 
     private List<BLEItem> mDevices;
+    private RecyclerViewClickListener mListener;
 
-    public BLEAdapter(List<BLEItem> devices)
+    public BLEAdapter(List<BLEItem> devices, RecyclerViewClickListener listener)
     {
+        mListener = listener;
         mDevices = devices;
     }
 
@@ -76,6 +78,13 @@ public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
 
         public BLEViewHolder(View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onClick(getBindingAdapterPosition());
+                }
+            });
 
             // Connect the adapter to the front end views for each device property.
             deviceName = (TextView) itemView.findViewById(R.id.device_name);
