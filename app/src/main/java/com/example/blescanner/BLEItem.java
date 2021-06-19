@@ -2,40 +2,49 @@
 
 package com.example.blescanner;
 
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.util.Log;
+
+import java.util.Comparator;
+
 /**
  * Model for a single BLE device.
  */
 public class BLEItem implements Comparable<BLEItem> {
 
-    private String deviceName;
-    private int rssi;
-    private boolean isConnectable;
-    private String address;
+    private String mDeviceName;
+    private int mRssi;
+    private boolean mIsConnectable;
+    private String mAddress;
+    private BluetoothDevice mDevice;
 
-    public BLEItem(String deviceName, int rssi, boolean isConnectable, String address) {
-        this.deviceName = deviceName;
-        this.rssi = rssi;
-        this.isConnectable = isConnectable;
-        this.address = address;
+    public BLEItem(String deviceName, int rssi, boolean isConnectable, String address, BluetoothDevice device) {
+        mDeviceName = deviceName;
+        mRssi = rssi;
+        mIsConnectable = isConnectable;
+        mAddress = address;
+        mDevice = device;
     }
 
     public String getName() {
-        return deviceName;
+        return mDeviceName;
     }
 
     public int getRssi() {
-        return rssi;
+        return mRssi;
     }
 
-    public String getConnectable() {
-        if (isConnectable) {
-            return "Connectable";
-        }
-        return "Not Connectable";
+    public boolean getConnectable() {
+        return mIsConnectable;
     }
 
     public String getAddress() {
-        return address;
+        return mAddress;
+    }
+
+    public BluetoothDevice getDevice() {
+        return mDevice;
     }
 
     @Override
@@ -53,6 +62,12 @@ public class BLEItem implements Comparable<BLEItem> {
 
     @Override
     public int compareTo(BLEItem o) {
-        return address.compareTo(o.getAddress());
+        return mAddress.compareTo(o.getAddress());
+    }
+
+    public static class RSSIComparator implements Comparator<BLEItem> {
+        public int compare(BLEItem first, BLEItem second) {
+            return Integer.compare(second.getRssi(), first.getRssi());
+        }
     }
 }

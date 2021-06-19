@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -17,8 +18,8 @@ import java.util.List;
  */
 public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
 
-    private List<BLEItem> mDevices;
-    private RecyclerViewClickListener mListener;
+    private final List<BLEItem> mDevices;
+    private final RecyclerViewClickListener mListener;
 
     public BLEAdapter(List<BLEItem> devices, RecyclerViewClickListener listener)
     {
@@ -26,6 +27,7 @@ public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
         mDevices = devices;
     }
 
+    @NonNull
     @Override
     public BLEAdapter.BLEViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -36,8 +38,7 @@ public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
         // Layout defined in res/layout/bledevice_item.xml
         View deviceView = inflater.inflate(R.layout.bledevice_item, parent, false);
 
-        BLEViewHolder viewHolder = new BLEViewHolder(deviceView);
-        return viewHolder;
+        return new BLEViewHolder(deviceView);
     }
 
     // Used to populate the recyclerview with data found in mDevices.
@@ -46,18 +47,25 @@ public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
         // Get the data model based on position
         BLEItem item = mDevices.get(position);
 
+        final Context c = holder.itemView.getContext();
+
         // Update the frontend views with the data for each device.
         TextView nameView = holder.deviceName;
-        nameView.setText("Device Name: " + item.getName());
+        nameView.setText(c.getString(R.string.device_label, item.getName()));
 
         TextView rssiView = holder.deviceRssi;
-        rssiView.setText("Rssi: " + String.valueOf(item.getRssi()));
+        rssiView.setText(c.getString(R.string.rssi_label, item.getRssi()));
 
         TextView connectView = holder.deviceConnectable;
-        connectView.setText(item.getConnectable());
+        boolean connectable = item.getConnectable();
+        if (connectable) {
+            connectView.setText(c.getString(R.string.connectable));
+        } else {
+            connectView.setText(c.getString(R.string.not_connectable));
+        }
 
         TextView addressView = holder.deviceAddress;
-        addressView.setText("Address: " + item.getAddress());
+        addressView.setText(c.getString(R.string.address_label, item.getAddress()));
     }
 
     @Override
@@ -79,18 +87,13 @@ public class BLEAdapter extends RecyclerView.Adapter<BLEAdapter.BLEViewHolder>{
         public BLEViewHolder(View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onClick(getBindingAdapterPosition());
-                }
-            });
+            itemView.setOnClickListener(v -> mListener.onClick(getBindingAdapterPosition()));
 
             // Connect the adapter to the front end views for each device property.
-            deviceName = (TextView) itemView.findViewById(R.id.device_name);
-            deviceRssi = (TextView) itemView.findViewById(R.id.device_rssi);
-            deviceConnectable = (TextView) itemView.findViewById(R.id.device_connectable);
-            deviceAddress = (TextView) itemView.findViewById(R.id.device_address);
+            deviceName = itemView.findViewById(R.id.device_name);
+            deviceRssi = itemView.findViewById(R.id.device_rssi);
+            deviceConnectable = itemView.findViewById(R.id.device_connectable);
+            deviceAddress = itemView.findViewById(R.id.device_address);
         }
     }
 }

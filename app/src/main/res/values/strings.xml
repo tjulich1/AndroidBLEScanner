@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BLEScanner</string>
+    <string name="address_label">Address: %1s</string>
+    <string name="device_label">Device name: %1s</string>
+    <string name="rssi_label">RSSI: %1d</string>
+    <string name="connectable">Connectable</string>
+    <string name="not_connectable">Not connectable</string>
 </resources>
