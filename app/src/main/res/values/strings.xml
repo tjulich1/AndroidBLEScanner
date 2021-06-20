@@ -1,8 +1,19 @@
 <resources>
+
     <string name="app_name">BLEScanner</string>
     <string name="address_label">Address: %1s</string>
     <string name="device_label">Device name: %1s</string>
     <string name="rssi_label">RSSI: %1d</string>
     <string name="connectable">Connectable</string>
     <string name="not_connectable">Not connectable</string>
+    <string name="no_name">N/A</string>
+
+    <!-- Strings for Bluetooth prompt message-->
+    <string name="bt_prompt_title">Bluetooth permission</string>
+    <string name="bt_prompt_message">Bluetooth must be enabled to perform a scan.</string>
+    <string name="def_confirm">OK</string>
+
+    <!-- Strings for Connected prompt message-->
+    <string name="con_title">"Connected"</string>
+    <string name="con_message">"Successfully connected to device with address " %1s</string>
 </resources>
